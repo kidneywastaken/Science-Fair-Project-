@@ -33,14 +33,14 @@ def make_human_readable(n):
     return result
 
 print("In method #1 the password will only consist of numbers.")
-input("enter to continue")
-Input_Password = input("type a 'password' consisting of only numbers: ") # **get rid of spaces or letters**
-num_digits = len(Input_Password)
-stored_password = MD5me(Input_Password)
+input("Enter to continue")
+Input_Password = input("Type a 'password' consisting of only numbers: ")
+no_space_password = Input_Password.replace(" ", '')
+num_digits = len(no_space_password)
+stored_password = MD5me(no_space_password)
 
 #------Method One------#
 def search_method_1(num_digits):
-    global totalguesses
     result = False
     a=0
     starttime = time.time()
