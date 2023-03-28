@@ -1,9 +1,11 @@
 
-import time
+import time,hashlib
 from array import *
 
-print("In method #2 the password will consist of numbers and both upper and lowercase letters.")
-Input_Password = input("type a 'password' consisting of numbers and letters: ")
+def MD5me(s):
+    result = s.encode("utf-8")
+    result = hashlib.md5(result).hexdigest()
+    return result
 
 def leading_zeroes(n, zeroes):
     t=("0"*zeroes)+str(n)
@@ -32,6 +34,10 @@ def make_human_readable(n):
         result = str(temp)
     return result
 
+print("In method #2 the password will consist of numbers and both upper and lowercase letters.")
+Input_Password = input("type a 'password' consisting of numbers and letters: ")
+stored_password = MD5me(Input_Password)
+
 #------Method Two------#
 def search_method_2(num_pass_wheels, Input_Password):
     totalguesses = 0
@@ -54,6 +60,7 @@ def search_method_2(num_pass_wheels, Input_Password):
         for i in range(0,num_pass_wheels):  # once for each wheel
             if pass_wheel_array[i] > 0:
                 ourguess_pass = wheel[pass_wheel_array[i]] + ourguess_pass
+            
         if Input_Password == ourguess_pass:
             print ("Success! Password is " + ourguess_pass)
             still_searching = False   # we can stop now - we found it!

@@ -1,4 +1,9 @@
-import time 
+import time, hashlib
+
+def MD5me(s):
+    result = s.encode("utf-8")
+    result = hashlib.md5(result).hexdigest()
+    return result
 
 def leading_zeroes(n, zeroes):
     t=("0"*zeroes)+str(n)
@@ -31,6 +36,7 @@ print("In method #1 the password will only consist of numbers.")
 input("enter to continue")
 Input_Password = input("type a 'password' consisting of only numbers: ") # **get rid of spaces or letters**
 num_digits = len(Input_Password)
+stored_password = MD5me(Input_Password)
 
 #------Method One------#
 def search_method_1(num_digits):
@@ -45,7 +51,7 @@ def search_method_1(num_digits):
         ourguess = leading_zeroes(a,num_digits)
         
         tests = tests + 1
-        if Input_Password == ourguess:
+        if stored_password == MD5me(ourguess):
             print ("Success! The password is " + ourguess)
             still_searching = False  
             result = True
