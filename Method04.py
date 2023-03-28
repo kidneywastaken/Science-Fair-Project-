@@ -1,5 +1,10 @@
-import sys, time, hashlib
+import time, hashlib
 from array import *
+
+def MD5me(s):
+    result = s.encode("utf-8")
+    result = hashlib.md5(result).hexdigest()
+    return result
 
 # total number of guesses we had to make to find it
 totalguesses = 0
@@ -47,8 +52,10 @@ def Cap (s):
 
 print("In method #4 we will guess from a list of common passwords but will guess two words in the same password with a symbol between them.")
 input("enter to continue")
-Input_Password = input("type a two word 'password'with a symbol between them") # **get rid of spaces or letters**
-
+Input_Password = input("type a two word 'password'with a symbol between them: ")
+no_space_password = Input_Password.replace(" ", '')
+stored_password = MD5me(no_space_password)
+print(stored_password)
 # *** METHOD 4 ***     
 def search_method_4(file_name):
     global totalguesses
@@ -78,8 +85,6 @@ def search_method_4(file_name):
                                               # the punctuation to run the words together
 
     number_of_puncs = len(punctuation)
-    print()
-    print("Using method 4 with "+str(number_of_puncs)+" punctuation characters and "+str(number_of_words)+" words...")
 
     while still_searching:
         if ("X" == punctuation[punc_count]):
@@ -88,9 +93,9 @@ def search_method_4(file_name):
         else:
             ourguess_pass = words[word1count] + punctuation[punc_count] + words[word2count]
         # uncomment the next line to print the current guess
-        print("Guessing: "+ourguess_pass)
+        # print(MD5me(ourguess_pass))
         # Try it the way they are in the word list
-        if Input_Password == ourguess_pass:
+        if stored_password == MD5me(ourguess_pass):
             print ("Success! The password is " + ourguess_pass)
             still_searching = False   # we can stop now - we found it!
             result = True
@@ -102,8 +107,8 @@ def search_method_4(file_name):
         if still_searching:
             ourguess_pass = Cap(words[word1count]) + punctuation[punc_count] + words[word2count]
             # uncomment the next line to print the current guess
-            # print("Guessing: "+ourguess_pass)
-            if Input_Password == ourguess_pass:
+            # print(MD5me(ourguess_pass))
+            if stored_password == MD5me(ourguess_pass):
                 print ("Success! The password is " + ourguess_pass)
                 still_searching = False   # we can stop now - we found it!
                 result = True
@@ -115,8 +120,8 @@ def search_method_4(file_name):
         if still_searching:
             ourguess_pass = words[word1count] + punctuation[punc_count] + Cap(words[word2count])
             # uncomment the next line to print the current guess
-            # print("Guessing: "+ourguess_pass)
-            if Input_Password == ourguess_pass:
+            # print(MD5me(ourguess_pass))
+            if stored_password == MD5me(ourguess_pass):
                 print ("Success! The password is " + ourguess_pass)
                 still_searching = False   # we can stop now - we found it!
                 result = True
@@ -128,8 +133,8 @@ def search_method_4(file_name):
         if still_searching:
             ourguess_pass = Cap(words[word1count]) + punctuation[punc_count] + Cap(words[word2count])
             # uncomment the next line to print the current guess
-            # print("Guessing: "+ourguess_pass)
-            if Input_Password == ourguess_pass:
+            # print(MD5me(ourguess_pass))
+            if stored_password == MD5me(ourguess_pass):
                 print ("Success! The password is " + ourguess_pass)
                 still_searching = False   # we can stop now - we found it!
                 result = True
