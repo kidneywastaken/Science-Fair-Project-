@@ -1,20 +1,21 @@
 import time, hashlib
 from array import *
 
+totalguesses = 0
+
+## Convert a string into MD5 hash
 def MD5me(s):
     result = s.encode("utf-8")
     result = hashlib.md5(result).hexdigest()
     return result
 
-# total number of guesses we had to make to find it
-totalguesses = 0
-
+## Adds zeros to all the guesses so that we get all possible combinations 
 def leading_zeroes(n, zeroes):
     t=("0"*zeroes)+str(n)
     t=t[-zeroes:]
     return t
 
-# This displays the results of a search including tests per second when possible
+## Displays the results of a search 
 def report_search_time(tests, seconds):
     if (seconds > 0.000001):
         print ("The search took "+make_human_readable(seconds)+" seconds for "+make_human_readable(tests)+" tests or "+make_human_readable(tests/seconds)+" tests per second.")
@@ -22,8 +23,7 @@ def report_search_time(tests, seconds):
         print ("The search took "+make_human_readable(seconds)+" seconds for "+make_human_readable(tests)+" tests.")
     return
 
-# This function takes in numbers, rounds them to the nearest integer and puts
-# commas in to make it more easily read by humans
+## Rounds numbers to the nearest integer and puts Adds commas to make it easier read
 def make_human_readable(n):
     if n>=1:
         result = ""
@@ -39,24 +39,23 @@ def make_human_readable(n):
         result = str(temp)
     return result
         
-## A little helper program to remove any weird formatting in the file
+## Remove any weird formatting in the file
 def cleanup (s):
     s = s.strip()
     return s
 
-## A little helper program that capitalizes the first letter of a word
+## Capitalizes the first letter of a word
 def Cap (s):
     s = s.upper()[0]+s[1:]
     return s
-
 
 print("In method #4 we will guess from a list of common passwords but will guess two words in the same password with a symbol between them.")
 input("enter to continue")
 Input_Password = input("type a two word 'password'with a symbol between them: ")
 no_space_password = Input_Password.replace(" ", '')
 stored_password = MD5me(no_space_password)
-print(stored_password)
-# *** METHOD 4 ***     
+
+#------Method Four------#     
 def search_method_4(file_name):
     global totalguesses
     result = False
@@ -65,19 +64,17 @@ def search_method_4(file_name):
     f = open(file_name)
     words = f.readlines()
     f.close
-    # We need to know how many there are
+    # How many words are there
     number_of_words = len(words)
     
-    ## Depending on the file system, there may be extra characters before
-    ## or after the words. 
+    ## Cleans up the formatting so that it only looks at the words
     for i in range(0, number_of_words):
         words[i] = cleanup(words[i])
 
-    # Let's try each one as the password and see what happens
     starttime = time.time()
     tests = 0
     still_searching = True
-    word1count = 0           # Which word we'll try next
+    word1count = 0         
     punc_count = 0
     word2count = 0
 
@@ -92,54 +89,45 @@ def search_method_4(file_name):
             ourguess_pass = words[word1count] + words[word2count]
         else:
             ourguess_pass = words[word1count] + punctuation[punc_count] + words[word2count]
-        # uncomment the next line to print the current guess
-        # print(MD5me(ourguess_pass))
-        # Try it the way they are in the word list
+       
         if stored_password == MD5me(ourguess_pass):
             print ("Success! The password is " + ourguess_pass)
-            still_searching = False   # we can stop now - we found it!
+            still_searching = False   # We can stop now - we found it!
             result = True
-        #else:
-            #print ("Darn. " + ourguess_pass + " is NOT the password.")
+       
         tests = tests + 1
         totalguesses = totalguesses + 1
-        # Now let's try it with the first letter of the first word capitalized
+        # First letter capitalized
         if still_searching:
             ourguess_pass = Cap(words[word1count]) + punctuation[punc_count] + words[word2count]
-            # uncomment the next line to print the current guess
-            # print(MD5me(ourguess_pass))
+          
             if stored_password == MD5me(ourguess_pass):
                 print ("Success! The password is " + ourguess_pass)
-                still_searching = False   # we can stop now - we found it!
+                still_searching = False   # We can stop now - we found it!
                 result = True
-            #else:
-                #print ("Darn. " + ourguess_pass + " is NOT the password.")
+     
             tests = tests + 1
             totalguesses = totalguesses + 1
-        # Now let's try it with the first letter of the second word capitalized
+        # First letter of the second word capitalized
         if still_searching:
             ourguess_pass = words[word1count] + punctuation[punc_count] + Cap(words[word2count])
-            # uncomment the next line to print the current guess
-            # print(MD5me(ourguess_pass))
+            
             if stored_password == MD5me(ourguess_pass):
                 print ("Success! The password is " + ourguess_pass)
-                still_searching = False   # we can stop now - we found it!
+                still_searching = False   # We can stop now - we found it!
                 result = True
-            #else:
-                #print ("Darn. " + ourguess_pass + " is NOT the password.")
+           
             tests = tests + 1
             totalguesses = totalguesses + 1
-        # Now let's try it with the both words capitalized
+        # Both words capitalized
         if still_searching:
             ourguess_pass = Cap(words[word1count]) + punctuation[punc_count] + Cap(words[word2count])
-            # uncomment the next line to print the current guess
-            # print(MD5me(ourguess_pass))
+     
             if stored_password == MD5me(ourguess_pass):
                 print ("Success! The password is " + ourguess_pass)
-                still_searching = False   # we can stop now - we found it!
+                still_searching = False   # We can stop now - we found it!
                 result = True
-            #else:
-                #print ("Darn. " + ourguess_pass + " is NOT the password.")
+    
             tests = tests + 1
             totalguesses = totalguesses + 1
 

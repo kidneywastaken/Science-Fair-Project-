@@ -1,15 +1,18 @@
 import time, hashlib
 
+## Convert a string into MD5 hash
 def MD5me(s):
     result = s.encode("utf-8")
     result = hashlib.md5(result).hexdigest()
     return result
 
+## Adds zeros to all the guesses so that we get all possible combinations 
 def leading_zeroes(n, zeroes):
     t=("0"*zeroes)+str(n)
     t=t[-zeroes:]
     return t
 
+## Displays the results of a search 
 def report_search_time(tests, seconds):
     if (seconds > 0.000001):
         print ("The search took "+make_human_readable(seconds)+" seconds for "+make_human_readable(tests)+" tests or "+make_human_readable(tests/seconds)+" tests per second.")
@@ -17,6 +20,7 @@ def report_search_time(tests, seconds):
         print ("The search took "+make_human_readable(seconds)+" seconds for "+make_human_readable(tests)+" tests.")
     return
 
+## Rounds numbers to the nearest integer and puts Adds commas to make it easier read
 def make_human_readable(n):
     if n>=1:
         result = ""

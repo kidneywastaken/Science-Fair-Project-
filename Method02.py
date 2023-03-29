@@ -2,16 +2,19 @@
 import time,hashlib
 from array import *
 
+## Convert a string into MD5 hash
 def MD5me(s):
     result = s.encode("utf-8")
     result = hashlib.md5(result).hexdigest()
     return result
 
+## Adds zeros to all the guesses so that we get all possible combinations 
 def leading_zeroes(n, zeroes):
     t=("0"*zeroes)+str(n)
     t=t[-zeroes:]
     return t
 
+## Displays the results of a search 
 def report_search_time(tests, seconds):
     if (seconds > 0.000001):
         print ("The search took "+make_human_readable(seconds)+" seconds for "+make_human_readable(tests)+" tests or "+make_human_readable(tests/seconds)+" tests per second.")
@@ -19,6 +22,7 @@ def report_search_time(tests, seconds):
         print ("The search took "+make_human_readable(seconds)+" seconds for "+make_human_readable(tests)+" tests.")
     return
 
+## Rounds numbers to the nearest integer and puts Adds commas to make it easier read
 def make_human_readable(n):
     if n>=1:
         result = ""
@@ -36,7 +40,7 @@ def make_human_readable(n):
 
 print("In method #2 the password will consist of numbers and both upper and lowercase letters.")
 input("Enter to continue")
-Input_Password = input("Type a 'password' consisting of numbers and letters: ")
+Input_Password = input("Type a 'password' consisting of numbers and letters(8 charaters max): ")
 stored_password = MD5me(Input_Password)
 
 #------Method Two------#
@@ -47,12 +51,12 @@ def search_method_2(num_pass_wheels, stored_password):
     still_searching = True
     
     wheel = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-    #only allow up to 8 characters 
+    # Only allow up to 8 characters 
     if (num_pass_wheels > 8):
         print("Unable to handle the request. No more than 8 characters for a password")
         still_searching = False
     
-    # set all of the wheels to the first position
+    # Set all of the wheels to the first position
     pass_wheel_array=array('i',[1,0,0,0,0,0,0,0,0])
         
     while still_searching:
@@ -67,9 +71,9 @@ def search_method_2(num_pass_wheels, stored_password):
       
         tests += 1
         
-# spin the rightmost wheel and if it changes, spin the next one over and so on
+        # Spin the rightmost wheel and if it changes, spin the next one over and so on
         carry = 1
-        for i in range(0,num_pass_wheels): # once for each wheel
+        for i in range(0,num_pass_wheels): # Once for each wheel
             pass_wheel_array[i] = pass_wheel_array[i] + carry
             carry = 0
             if pass_wheel_array[i] > 62:
