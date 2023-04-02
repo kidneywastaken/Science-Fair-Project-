@@ -51,7 +51,8 @@ def search_method_2(num_pass_wheels, stored_password):
     still_searching = True
     
     wheel = " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-    # Only allow up to 8 characters 
+    
+    # Only allow up to 8 characters  
     if (num_pass_wheels > 8):
         print("Unable to handle the request. No more than 8 characters for a password")
         still_searching = False
