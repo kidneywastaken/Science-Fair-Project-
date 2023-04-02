@@ -1,3 +1,5 @@
+# Code has been modified and adapted from Science Buddies; https://www.sciencebuddies.org/science-fair-projects/project-ideas/CompSci_p046/computer-science/password-security-how-easily-can-your-password-be-hacked#procedure
+
 import time, hashlib
 
 ## Convert a string into MD5 hash
